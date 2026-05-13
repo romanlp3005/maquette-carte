@@ -6,9 +6,9 @@
     <title>Présentation VIP - DIGITAGPRO x Le Petit Plus</title>
     <style>
         /* --- STYLES GLOBAUX --- */
-        body { margin: 0; overflow: hidden; background-color: #a3a3a3; font-family: 'Segoe UI', sans-serif; touch-action: manipulation; }
+        body { margin: 0; overflow: hidden; background-color: #a3a3a3; font-family: 'Segoe UI', sans-serif; }
         
-        /* BOUTON MENU (🍔) - Toujours présent en arrière-plan du menu */
+        /* BOUTON MENU (🍔) */
         #btn-toggle-panel {
             position: absolute; top: 15px; left: 15px; z-index: 10;
             background: rgba(20, 20, 20, 0.9); color: white; border: 1px solid rgba(255,255,255,0.2);
@@ -32,37 +32,40 @@
             position: absolute; top: 0; left: 0; height: 100vh; width: 340px;
             background: rgba(20, 20, 20, 0.98); backdrop-filter: blur(15px);
             padding: 20px; box-sizing: border-box; color: white;
-            box-shadow: 5px 0 30px rgba(0,0,0,0.5); z-index: 100; /* Priorité maximale quand ouvert */
+            box-shadow: 5px 0 30px rgba(0,0,0,0.5); z-index: 100;
             display: flex; flex-direction: column;
-            overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;
+            
+            /* CORRECTION SCROLL MOBILE */
+            overflow-y: scroll; 
+            -webkit-overflow-scrolling: touch; 
+            scrollbar-width: none;
+            padding-bottom: 100px; /* Espace pour ne pas bloquer le bouton en bas */
+            
             transform: translateX(0); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         #builder-panel::-webkit-scrollbar { display: none; }
         #builder-panel.collapsed { transform: translateX(-100%); }
 
-        /* AJUSTEMENTS MOBILES */
         @media (max-width: 600px) {
             #builder-panel { width: 100%; }
-            .collab-logos { top: auto; bottom: 20px; padding: 8px 15px; max-width: 80vw; } /* Logos en bas sur mobile pour libérer l'espace 3D */
-            #top-ui-right { top: 15px; right: 15px; }
+            .collab-logos { top: auto; bottom: 20px; padding: 8px 15px; max-width: 80vw; }
         }
 
-        /* ÉLÉMENTS INTERNES DU PANNEAU */
         .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px; }
-        .btn-close { background: #333; border: none; color: white; padding: 5px 12px; border-radius: 5px; font-size: 1.2rem; cursor: pointer; }
+        .btn-close { background: #333; border: none; color: white; padding: 8px 15px; border-radius: 5px; font-size: 1rem; cursor: pointer; }
 
         .finition-box { background: rgba(76, 175, 80, 0.15); border: 1px solid rgba(76, 175, 80, 0.4); padding: 15px; border-radius: 10px; margin-bottom: 20px; }
         .col { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 20px; }
         h3 { margin: 0 0 10px 0; font-size: 1rem; color: #4CAF50; }
         
-        select { width: 100%; padding: 12px; background: #222; color: white; border: 1px solid #444; border-radius: 6px; margin-bottom: 10px; }
+        select { width: 100%; padding: 12px; background: #222; color: white; border: 1px solid #444; border-radius: 6px; margin-bottom: 10px; font-size: 16px; /* Évite le zoom auto sur iOS */}
         .custom-file-upload { display: block; padding: 10px; background: #333; color: #aaa; text-align: center; border: 1px dashed #555; border-radius: 6px; font-size: 0.8rem; cursor: pointer; }
 
         .preview-box { width: 100%; height: 130px; margin-top: 10px; background: #000; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .preview-img { width: 100%; height: 100%; object-fit: contain; display: none; }
 
-        #btn-create { background: #4CAF50; color: white; border: none; padding: 18px; width: 100%; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        #btn-create:disabled { background: #444; color: #777; cursor: not-allowed; }
+        #btn-create { background: #4CAF50; color: white; border: none; padding: 20px; width: 100%; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        #btn-create:disabled { background: #444; color: #777; cursor: not-allowed; box-shadow: none; }
 
         #top-ui-right { position: absolute; top: 15px; right: 15px; z-index: 5; }
         .btn-clear { background: #d32f2f; color: white; border: none; padding: 12px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
@@ -143,7 +146,10 @@
             </div>
         </div>
 
+        <!-- Bouton de validation bien dégagé -->
         <button id="btn-create" disabled>Générer la carte 3D</button>
+        
+        <div style="height: 40px; width: 100%;"></div> <!-- Espace de sécurité final -->
     </div>
 
     <script type="module">
@@ -151,8 +157,6 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
         const builderPanel = document.getElementById('builder-panel');
-        
-        // CORRECTION MOBILE : Simple toggle, le panneau passe par dessus le bouton 🍔
         window.togglePanel = function() {
             builderPanel.classList.toggle('collapsed');
         };
@@ -182,7 +186,6 @@
         btnCreate.addEventListener('click', () => {
             if(currentFrontUrl && currentBackUrl) { 
                 addCustomCardToScene(currentFrontUrl, currentBackUrl); 
-                // Sur mobile on ferme auto pour voir la carte
                 if(window.innerWidth < 600) togglePanel(); 
             }
         });
