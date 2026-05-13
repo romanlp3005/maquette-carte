@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Présentation de Cartes VIP - Personnalisable</title>
+    <title>Présentation VIP - DIGITAGPRO x Le Petit Plus</title>
     <style>
         /* --- STYLES GLOBAUX --- */
         body { margin: 0; overflow: hidden; background-color: #a3a3a3; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -16,19 +16,41 @@
         }
         #btn-toggle-panel:hover { background: #333; }
 
+        /* --- ENCART COLLABORATION (FOND BLANC) --- */
+        .collab-logos {
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            display: flex; align-items: center; justify-content: center; gap: 30px;
+            background: rgba(255, 255, 255, 0.9); /* FOND BLANC PROPRE */
+            backdrop-filter: blur(10px);
+            padding: 15px 40px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 10;
+        }
+        .collab-logos img {
+            max-width: 180px;
+            max-height: 70px; 
+            object-fit: contain;
+        }
+        .collab-cross { color: #bbbbbb; font-size: 1.8rem; font-weight: bold; }
+
+        /* --- PANNEAU CRÉATEUR LATÉRAL --- */
         #builder-panel {
-            position: absolute; top: 0; left: 0; height: 100vh; width: 340px;
+            position: absolute; top: 0; left: 0; height: 100vh; width: 350px;
             background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(15px);
             padding: 25px; box-sizing: border-box; color: white;
             box-shadow: 5px 0 30px rgba(0,0,0,0.6); z-index: 20;
             border-right: 1px solid rgba(255,255,255,0.1); 
-            overflow-y: auto; display: flex; flex-direction: column;
+            display: flex; flex-direction: column;
+            overflow-y: auto;
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
             transform: translateX(0); transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+        #builder-panel::-webkit-scrollbar { display: none; }
         #builder-panel.collapsed { transform: translateX(-100%); }
-        
+
         .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 15px; margin-bottom: 20px; }
-        .panel-header h2 { margin: 0; font-size: 1.4rem; }
+        .panel-header h2 { margin: 0; font-size: 1.3rem; }
         .btn-close { background: transparent; border: none; color: #aaa; font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
         .btn-close:hover { color: white; }
 
@@ -61,17 +83,23 @@
         #btn-create {
             background: #4CAF50; color: white; border: none; padding: 15px; width: 100%;
             border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: 0.3s;
-            margin-bottom: 15px;
+            margin-bottom: 15px; margin-top: 10px;
         }
         #btn-create:hover { background: #45a049; transform: translateY(-2px); }
         #btn-create:disabled { background: #444; color: #888; cursor: not-allowed; transform: none; }
 
-        #top-ui-right { position: absolute; top: 20px; right: 20px; z-index: 10; }
+        #top-ui-right { position: absolute; top: 20px; right: 20px; z-index: 10; display: flex; gap: 10px; }
         .btn-clear { 
             background: #d32f2f; color: white; border: none; padding: 10px 20px;
             border-radius: 6px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
         }
         .btn-clear:hover { background: #b71c1c; }
+
+        .finition-box {
+            background: rgba(76, 175, 80, 0.1); border: 1px solid rgba(76, 175, 80, 0.3);
+            padding: 15px; border-radius: 10px; margin-bottom: 20px;
+        }
+        .finition-box h3 { color: #4CAF50; margin-top: 0; font-size: 1.1rem; margin-bottom: 10px;}
     </style>
 
     <script type="importmap">
@@ -85,6 +113,13 @@
 </head>
 <body>
 
+    <!-- ENCART COLLABORATION AU MILIEU EN HAUT (FOND BLANC) -->
+    <div class="collab-logos">
+        <img src="Logo DIGITAGPRO.png" alt="DIGITAGPRO">
+        <span class="collab-cross">✖</span>
+        <img src="logo le petit plus.png" alt="Le Petit Plus">
+    </div>
+
     <button id="btn-toggle-panel" onclick="togglePanel()">🍔 Éditeur de Cartes</button>
 
     <div id="top-ui-right">
@@ -92,9 +127,18 @@
     </div>
 
     <div id="builder-panel">
+        
         <div class="panel-header">
-            <h2>✨ Créateur</h2>
+            <h2>✨ Paramétrage</h2>
             <button class="btn-close" onclick="togglePanel()">✖</button>
+        </div>
+
+        <div class="finition-box">
+            <h3>✨ Finition de la carte</h3>
+            <select id="select-finish">
+                <option value="brillant">Brillant (Glossy)</option>
+                <option value="mat">Mat (Matte)</option>
+            </select>
         </div>
         
         <div class="col">
@@ -156,12 +200,14 @@
         };
         btnTogglePanel.style.display = 'none';
 
-        // SÉLECTION D'IMAGES
+        // SÉLECTION D'IMAGES ET FINITIONS
         let currentFrontUrl = null;
         let currentBackUrl = null;
+        let currentFinish = 'brillant';
 
         const selectFront = document.getElementById('select-front');
         const selectBack = document.getElementById('select-back');
+        const selectFinish = document.getElementById('select-finish');
         const uploadFront = document.getElementById('upload-front');
         const uploadBack = document.getElementById('upload-back');
         const previewFront = document.getElementById('preview-front');
@@ -173,18 +219,12 @@
         function updatePreview(type, url) {
             if (type === 'front') {
                 currentFrontUrl = url;
-                if (url) {
-                    previewFront.src = url; previewFront.style.display = 'block'; phFront.style.display = 'none';
-                } else {
-                    previewFront.style.display = 'none'; phFront.style.display = 'block';
-                }
+                if (url) { previewFront.src = url; previewFront.style.display = 'block'; phFront.style.display = 'none'; } 
+                else { previewFront.style.display = 'none'; phFront.style.display = 'block'; }
             } else {
                 currentBackUrl = url;
-                if (url) {
-                    previewBack.src = url; previewBack.style.display = 'block'; phBack.style.display = 'none';
-                } else {
-                    previewBack.style.display = 'none'; phBack.style.display = 'block';
-                }
+                if (url) { previewBack.src = url; previewBack.style.display = 'block'; phBack.style.display = 'none'; } 
+                else { previewBack.style.display = 'none'; phBack.style.display = 'block'; }
             }
             checkIfReady();
         }
@@ -192,18 +232,18 @@
         selectFront.addEventListener('change', (e) => updatePreview('front', e.target.value));
         selectBack.addEventListener('change', (e) => updatePreview('back', e.target.value));
 
-        // L'upload créé une URL locale invisible qui ne se fait PAS bloquer par le navigateur !
         uploadFront.addEventListener('change', (e) => {
-            if(e.target.files[0]) {
-                selectFront.value = ""; 
-                updatePreview('front', URL.createObjectURL(e.target.files[0]));
-            }
+            if(e.target.files[0]) { selectFront.value = ""; updatePreview('front', URL.createObjectURL(e.target.files[0])); }
         });
         uploadBack.addEventListener('change', (e) => {
-            if(e.target.files[0]) {
-                selectBack.value = ""; 
-                updatePreview('back', URL.createObjectURL(e.target.files[0]));
-            }
+            if(e.target.files[0]) { selectBack.value = ""; updatePreview('back', URL.createObjectURL(e.target.files[0])); }
+        });
+
+        selectFinish.addEventListener('change', (e) => {
+            currentFinish = e.target.value;
+            activeCards.forEach(card => {
+                card.material.forEach(mat => applyFinishToMaterial(mat, currentFinish));
+            });
         });
 
         function checkIfReady() {
@@ -217,7 +257,7 @@
             }
         });
 
-        // SCÈNE 3D
+        // SCÈNE 3D & ÉCLAIRAGE
         const activeCards = [];
         const cardSpacing = 10; 
 
@@ -233,18 +273,22 @@
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.35; 
+        renderer.toneMappingExposure = 1.5; 
         document.body.appendChild(renderer.domElement);
 
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true; controls.dampingFactor = 0.05;
         controls.maxPolarAngle = Math.PI / 2 + 0.1; 
 
-        scene.add(new THREE.AmbientLight(0xffffff, 1.0));
-        const frontLight = new THREE.DirectionalLight(0xffffff, 2.5); frontLight.position.set(5, 10, 8); frontLight.castShadow = true; scene.add(frontLight);
-        const backLightDir = new THREE.DirectionalLight(0xffffff, 2.5); backLightDir.position.set(-5, 10, -8); backLightDir.castShadow = true; scene.add(backLightDir);
-        const rim1 = new THREE.PointLight(0xffffff, 2.0, 30); rim1.position.set(-8, 5, 2); scene.add(rim1);
-        const rim2 = new THREE.PointLight(0xffffff, 2.0, 30); rim2.position.set(8, 5, -2); scene.add(rim2);
+        scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+        const frontLight = new THREE.DirectionalLight(0xffffff, 3.5); frontLight.position.set(5, 10, 8); frontLight.castShadow = true; scene.add(frontLight);
+        const backLightDir = new THREE.DirectionalLight(0xffffff, 3.5); backLightDir.position.set(-5, 10, -8); backLightDir.castShadow = true; scene.add(backLightDir);
+        
+        const fill1 = new THREE.PointLight(0xffffff, 2.5, 50); fill1.position.set(0, 0, 6); scene.add(fill1);
+        const fill2 = new THREE.PointLight(0xffffff, 2.5, 50); fill2.position.set(0, 0, -6); scene.add(fill2);
+        
+        const rim1 = new THREE.PointLight(0xffffff, 2.5, 30); rim1.position.set(-8, 5, 2); scene.add(rim1);
+        const rim2 = new THREE.PointLight(0xffffff, 2.5, 30); rim2.position.set(8, 5, -2); scene.add(rim2);
 
         const planeMat = new THREE.MeshStandardMaterial({ color: '#a3a3a3', roughness: 0.6, metalness: 0.1 });
         const plane = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), planeMat);
@@ -271,35 +315,46 @@
 
         const textureLoader = new THREE.TextureLoader();
 
-        // CHARGEMENT DE LA CARTE AVEC ALERTE EN CAS DE BLOCAGE
+        function applyFinishToMaterial(mat, finishType) {
+            if (finishType === 'mat') {
+                mat.roughness = 0.8;
+                mat.metalness = 0.0;
+                mat.clearcoat = 0.0;
+                mat.transmission = 0.0;
+                mat.transparent = false;
+            } else { 
+                mat.roughness = 0.15;
+                mat.metalness = 0.1;
+                mat.clearcoat = 1.0; 
+                mat.clearcoatRoughness = 0.05;
+                mat.transmission = 0.0;
+                mat.transparent = false;
+            }
+            mat.needsUpdate = true;
+        }
+
         function addCustomCardToScene(frontUrl, backUrl) {
-            const glossyConfig = { color: 0xffffff, roughness: 0.3, metalness: 0.1, clearcoat: 1.0, clearcoatRoughness: 0.05 };
             const materials = [
-                new THREE.MeshPhysicalMaterial(glossyConfig),
-                new THREE.MeshPhysicalMaterial(glossyConfig),
-                new THREE.MeshStandardMaterial({ color: 0xeeeeee, roughness: 0.4, metalness: 0.1 })
+                new THREE.MeshPhysicalMaterial({ color: 0xffffff }), 
+                new THREE.MeshPhysicalMaterial({ color: 0xffffff }), 
+                new THREE.MeshPhysicalMaterial({ color: 0xeeeeee })  
             ];
+
+            materials.forEach(mat => applyFinishToMaterial(mat, currentFinish));
 
             const newCard = new THREE.Mesh(sharedGeometry, materials);
             newCard.castShadow = true;
             
-            // Fonction de chargement sécurisée
             const loadSafeTexture = (url, material) => {
-                textureLoader.load(
-                    url,
-                    (texture) => {
-                        texture.colorSpace = THREE.SRGBColorSpace; 
-                        texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-                        material.map = texture; 
-                        material.needsUpdate = true;
-                    },
-                    undefined,
-                    (err) => {
-                        // SI LE NAVIGATEUR BLOQUE, ON PRÉVIENT !
-                        console.error(err);
-                        alert("⚠️ Blocage de sécurité du navigateur détecté !\n\nL'image ne peut pas s'afficher en 3D car tu testes en local (sur ton PC).\n\n👉 Solution : Utilise le bouton '+ Ou importer une autre image' pour faire ton test aujourd'hui.\n\nLe menu déroulant marchera parfaitement une fois que tu auras hébergé le fichier sur GitHub !");
-                    }
-                );
+                textureLoader.load(url, (texture) => {
+                    texture.colorSpace = THREE.SRGBColorSpace; 
+                    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                    material.map = texture; 
+                    material.needsUpdate = true;
+                }, undefined, (err) => {
+                    console.error(err);
+                    alert("⚠️ Blocage navigateur local. Utilise le bouton '+ Ou importer'.");
+                });
             };
 
             loadSafeTexture(frontUrl, materials[0]);
@@ -327,8 +382,10 @@
         window.clearCards = function() {
             activeCards.forEach(card => {
                 scene.remove(card);
-                card.material[0].map?.dispose(); card.material[1].map?.dispose();
-                card.material.forEach(mat => mat.dispose());
+                card.material.forEach(mat => {
+                    if(mat.map) mat.map.dispose();
+                    mat.dispose();
+                });
             });
             activeCards.length = 0;
             camera.position.set(0, 0, 14); controls.target.set(0, 0, 0); controls.update();
