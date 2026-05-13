@@ -9,97 +9,89 @@
         body { margin: 0; overflow: hidden; background-color: #a3a3a3; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
         #btn-toggle-panel {
-            position: absolute; top: 20px; left: 20px; z-index: 15;
+            position: absolute; top: 15px; left: 15px; z-index: 15;
             background: rgba(20, 20, 20, 0.9); color: white; border: 1px solid rgba(255,255,255,0.2);
-            padding: 12px 18px; border-radius: 8px; cursor: pointer; font-size: 1.1rem;
+            padding: 10px 15px; border-radius: 8px; cursor: pointer; font-size: 1rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3); backdrop-filter: blur(5px); transition: 0.3s;
         }
-        #btn-toggle-panel:hover { background: #333; }
 
-        /* --- ENCART COLLABORATION (FOND BLANC) --- */
+        /* --- ENCART COLLABORATION RESPONSIVE --- */
         .collab-logos {
-            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
-            display: flex; align-items: center; justify-content: center; gap: 30px;
-            background: rgba(255, 255, 255, 0.9); /* FOND BLANC PROPRE */
+            position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
+            display: flex; align-items: center; justify-content: center; gap: 15px;
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
-            padding: 15px 40px; border-radius: 20px;
+            padding: 10px 25px; border-radius: 15px;
             border: 1px solid rgba(255,255,255,0.5);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 10;
+            width: auto; max-width: 80vw;
         }
         .collab-logos img {
-            max-width: 180px;
-            max-height: 70px; 
-            object-fit: contain;
+            max-width: 120px; max-height: 50px; object-fit: contain;
         }
-        .collab-cross { color: #bbbbbb; font-size: 1.8rem; font-weight: bold; }
+        .collab-cross { color: #bbbbbb; font-size: 1.2rem; font-weight: bold; }
 
-        /* --- PANNEAU CRÉATEUR LATÉRAL --- */
+        /* --- PANNEAU LATÉRAL RESPONSIVE --- */
         #builder-panel {
             position: absolute; top: 0; left: 0; height: 100vh; width: 350px;
             background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(15px);
-            padding: 25px; box-sizing: border-box; color: white;
+            padding: 20px; box-sizing: border-box; color: white;
             box-shadow: 5px 0 30px rgba(0,0,0,0.6); z-index: 20;
             border-right: 1px solid rgba(255,255,255,0.1); 
             display: flex; flex-direction: column;
-            overflow-y: auto;
-            -ms-overflow-style: none;  
-            scrollbar-width: none;  
+            overflow-y: auto; scrollbar-width: none;
             transform: translateX(0); transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         #builder-panel::-webkit-scrollbar { display: none; }
         #builder-panel.collapsed { transform: translateX(-100%); }
 
-        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 15px; margin-bottom: 20px; }
-        .panel-header h2 { margin: 0; font-size: 1.3rem; }
-        .btn-close { background: transparent; border: none; color: #aaa; font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
-        .btn-close:hover { color: white; }
+        /* Ajustements Mobile */
+        @media (max-width: 600px) {
+            #builder-panel { width: 100%; }
+            .collab-logos { gap: 10px; padding: 8px 15px; top: 70px; } /* Descendu pour pas gêner le bouton menu */
+            .collab-logos img { max-width: 80px; max-height: 35px; }
+            .collab-cross { font-size: 1rem; }
+        }
 
-        .col { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
-        .col h3 { margin-top: 0; font-size: 1.1rem; color: #4CAF50; margin-bottom: 12px; }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 15px; margin-bottom: 15px; }
+        .panel-header h2 { margin: 0; font-size: 1.2rem; }
+        .btn-close { background: transparent; border: none; color: #aaa; font-size: 1.5rem; cursor: pointer; }
+
+        .col { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
+        .col h3 { margin-top: 0; font-size: 1rem; color: #4CAF50; margin-bottom: 10px; }
         
         select {
             width: 100%; padding: 10px; background: #222; color: white;
             border: 1px solid #555; border-radius: 6px; font-size: 0.9rem;
-            margin-bottom: 10px; cursor: pointer; outline: none;
+            margin-bottom: 10px;
         }
-        select:focus { border-color: #4CAF50; }
 
         input[type="file"] { display: none; }
         .custom-file-upload {
             display: block; padding: 8px; cursor: pointer; text-align: center;
             background: #333; color: #bbb; border-radius: 6px; font-size: 0.8rem;
-            border: 1px dashed #666; transition: 0.3s; width: 100%; box-sizing: border-box;
+            border: 1px dashed #666; width: 100%; box-sizing: border-box;
         }
-        .custom-file-upload:hover { background: #444; color: white; border-color: #888; }
 
         .preview-box {
-            width: 100%; height: 160px; margin-top: 15px; border-radius: 8px;
+            width: 100%; height: 120px; margin-top: 10px; border-radius: 8px;
             background: #111; display: flex; align-items: center; justify-content: center;
             overflow: hidden; border: 1px solid #333;
         }
         .preview-img { width: 100%; height: 100%; object-fit: contain; display: none; }
-        .preview-placeholder { color: #555; font-size: 0.8rem; text-align: center; padding: 10px;}
+        .preview-placeholder { color: #555; font-size: 0.7rem; text-align: center; }
 
         #btn-create {
             background: #4CAF50; color: white; border: none; padding: 15px; width: 100%;
-            border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold; transition: 0.3s;
-            margin-bottom: 15px; margin-top: 10px;
+            border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: bold; margin-bottom: 10px;
         }
-        #btn-create:hover { background: #45a049; transform: translateY(-2px); }
-        #btn-create:disabled { background: #444; color: #888; cursor: not-allowed; transform: none; }
+        #btn-create:disabled { background: #444; color: #888; cursor: not-allowed; }
 
-        #top-ui-right { position: absolute; top: 20px; right: 20px; z-index: 10; display: flex; gap: 10px; }
-        .btn-clear { 
-            background: #d32f2f; color: white; border: none; padding: 10px 20px;
-            border-radius: 6px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
-        }
-        .btn-clear:hover { background: #b71c1c; }
+        #top-ui-right { position: absolute; top: 15px; right: 15px; z-index: 10; }
+        .btn-clear { background: #d32f2f; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9rem;}
 
-        .finition-box {
-            background: rgba(76, 175, 80, 0.1); border: 1px solid rgba(76, 175, 80, 0.3);
-            padding: 15px; border-radius: 10px; margin-bottom: 20px;
-        }
-        .finition-box h3 { color: #4CAF50; margin-top: 0; font-size: 1.1rem; margin-bottom: 10px;}
+        .finition-box { background: rgba(76, 175, 80, 0.1); border: 1px solid rgba(76, 175, 80, 0.3); padding: 12px; border-radius: 10px; margin-bottom: 15px; }
+        .finition-box h3 { color: #4CAF50; margin-top: 0; font-size: 1rem; margin-bottom: 8px;}
     </style>
 
     <script type="importmap">
@@ -113,28 +105,26 @@
 </head>
 <body>
 
-    <!-- ENCART COLLABORATION AU MILIEU EN HAUT (FOND BLANC) -->
     <div class="collab-logos">
         <img src="Logo DIGITAGPRO.png" alt="DIGITAGPRO">
         <span class="collab-cross">✖</span>
         <img src="logo le petit plus.png" alt="Le Petit Plus">
     </div>
 
-    <button id="btn-toggle-panel" onclick="togglePanel()">🍔 Éditeur de Cartes</button>
+    <button id="btn-toggle-panel" onclick="togglePanel()">🍔 Menu</button>
 
     <div id="top-ui-right">
-        <button class="btn-clear" onclick="clearCards()">🗑️ Vider la scène</button>
+        <button class="btn-clear" onclick="clearCards()">🗑️ Reset</button>
     </div>
 
     <div id="builder-panel">
-        
         <div class="panel-header">
             <h2>✨ Paramétrage</h2>
             <button class="btn-close" onclick="togglePanel()">✖</button>
         </div>
 
         <div class="finition-box">
-            <h3>✨ Finition de la carte</h3>
+            <h3>✨ Finition</h3>
             <select id="select-finish">
                 <option value="brillant">Brillant (Glossy)</option>
                 <option value="mat">Mat (Matte)</option>
@@ -142,40 +132,40 @@
         </div>
         
         <div class="col">
-            <h3>🖼️ Face Avant (Recto)</h3>
+            <h3>🖼️ Recto</h3>
             <select id="select-front">
-                <option value="">-- Choisir un design --</option>
+                <option value="">-- Choisir --</option>
                 <option value="recto blanc fruit.png">Recto Blanc Fruit</option>
-                <option value="recto blanc.png">Recto Blanc Standard</option>
+                <option value="recto blanc.png">Recto Blanc</option>
                 <option value="recto noir fruit.png">Recto Noir Fruit</option>
-                <option value="recto noir.png">Recto Noir Standard</option>
+                <option value="recto noir.png">Recto Noir</option>
             </select>
             <label class="custom-file-upload">
                 <input type="file" accept="image/*" id="upload-front">
-                + Ou importer une autre image
+                + Importer image
             </label>
             <div class="preview-box">
-                <span class="preview-placeholder" id="ph-front">Sélectionnez ou importez<br>une image</span>
-                <img id="preview-front" class="preview-img" alt="Aperçu Recto">
+                <span class="preview-placeholder" id="ph-front">Aucun Recto</span>
+                <img id="preview-front" class="preview-img" alt="Aperçu">
             </div>
         </div>
 
         <div class="col">
-            <h3>🔄 Face Arrière (Verso)</h3>
+            <h3>🔄 Verso</h3>
             <select id="select-back">
-                <option value="">-- Choisir un design --</option>
+                <option value="">-- Choisir --</option>
                 <option value="verso blanc carte adherent.png">Verso Blanc Adhérent</option>
-                <option value="verso blanc fruit adherents.png">Verso Blanc Fruit Adhérents</option>
-                <option value="verso noir carte benevole.png">Verso Noir Carte Bénévole</option>
-                <option value="verso noir fruit benevole.png">Verso Noir Fruit Bénévole</option>
+                <option value="verso blanc fruit adherents.png">Verso Blanc Fruit</option>
+                <option value="verso noir carte benevole.png">Verso Noir Bénévole</option>
+                <option value="verso noir fruit benevole.png">Verso Noir Fruit</option>
             </select>
             <label class="custom-file-upload">
                 <input type="file" accept="image/*" id="upload-back">
-                + Ou importer une autre image
+                + Importer image
             </label>
             <div class="preview-box">
-                <span class="preview-placeholder" id="ph-back">Sélectionnez ou importez<br>une image</span>
-                <img id="preview-back" class="preview-img" alt="Aperçu Verso">
+                <span class="preview-placeholder" id="ph-back">Aucun Verso</span>
+                <img id="preview-back" class="preview-img" alt="Aperçu">
             </div>
         </div>
 
@@ -186,119 +176,62 @@
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-        // GESTION DU PANNEAU
         const builderPanel = document.getElementById('builder-panel');
         const btnTogglePanel = document.getElementById('btn-toggle-panel');
 
         window.togglePanel = function() {
             builderPanel.classList.toggle('collapsed');
-            if (builderPanel.classList.contains('collapsed')) {
-                btnTogglePanel.style.display = 'block';
-            } else {
-                btnTogglePanel.style.display = 'none';
-            }
+            btnTogglePanel.style.display = builderPanel.classList.contains('collapsed') ? 'block' : 'none';
         };
         btnTogglePanel.style.display = 'none';
 
-        // SÉLECTION D'IMAGES ET FINITIONS
-        let currentFrontUrl = null;
-        let currentBackUrl = null;
-        let currentFinish = 'brillant';
-
-        const selectFront = document.getElementById('select-front');
-        const selectBack = document.getElementById('select-back');
-        const selectFinish = document.getElementById('select-finish');
-        const uploadFront = document.getElementById('upload-front');
-        const uploadBack = document.getElementById('upload-back');
-        const previewFront = document.getElementById('preview-front');
-        const previewBack = document.getElementById('preview-back');
-        const phFront = document.getElementById('ph-front');
-        const phBack = document.getElementById('ph-back');
-        const btnCreate = document.getElementById('btn-create');
+        let currentFrontUrl = null, currentBackUrl = null, currentFinish = 'brillant';
+        const selectFront = document.getElementById('select-front'), selectBack = document.getElementById('select-back'), selectFinish = document.getElementById('select-finish');
+        const uploadFront = document.getElementById('upload-front'), uploadBack = document.getElementById('upload-back');
+        const previewFront = document.getElementById('preview-front'), previewBack = document.getElementById('preview-back');
+        const phFront = document.getElementById('ph-front'), phBack = document.getElementById('ph-back'), btnCreate = document.getElementById('btn-create');
 
         function updatePreview(type, url) {
-            if (type === 'front') {
-                currentFrontUrl = url;
-                if (url) { previewFront.src = url; previewFront.style.display = 'block'; phFront.style.display = 'none'; } 
-                else { previewFront.style.display = 'none'; phFront.style.display = 'block'; }
-            } else {
-                currentBackUrl = url;
-                if (url) { previewBack.src = url; previewBack.style.display = 'block'; phBack.style.display = 'none'; } 
-                else { previewBack.style.display = 'none'; phBack.style.display = 'block'; }
-            }
-            checkIfReady();
+            if (type === 'front') { currentFrontUrl = url; previewFront.src = url || ""; previewFront.style.display = url ? 'block' : 'none'; phFront.style.display = url ? 'none' : 'block'; } 
+            else { currentBackUrl = url; previewBack.src = url || ""; previewBack.style.display = url ? 'block' : 'none'; phBack.style.display = url ? 'none' : 'block'; }
+            btnCreate.disabled = !(currentFrontUrl && currentBackUrl);
         }
 
         selectFront.addEventListener('change', (e) => updatePreview('front', e.target.value));
         selectBack.addEventListener('change', (e) => updatePreview('back', e.target.value));
-
-        uploadFront.addEventListener('change', (e) => {
-            if(e.target.files[0]) { selectFront.value = ""; updatePreview('front', URL.createObjectURL(e.target.files[0])); }
-        });
-        uploadBack.addEventListener('change', (e) => {
-            if(e.target.files[0]) { selectBack.value = ""; updatePreview('back', URL.createObjectURL(e.target.files[0])); }
-        });
+        uploadFront.addEventListener('change', (e) => { if(e.target.files[0]) { selectFront.value = ""; updatePreview('front', URL.createObjectURL(e.target.files[0])); } });
+        uploadBack.addEventListener('change', (e) => { if(e.target.files[0]) { selectBack.value = ""; updatePreview('back', URL.createObjectURL(e.target.files[0])); } });
 
         selectFinish.addEventListener('change', (e) => {
             currentFinish = e.target.value;
-            activeCards.forEach(card => {
-                card.material.forEach(mat => applyFinishToMaterial(mat, currentFinish));
-            });
+            activeCards.forEach(card => card.material.forEach(mat => applyFinishToMaterial(mat, currentFinish)));
         });
-
-        function checkIfReady() {
-            btnCreate.disabled = !(currentFrontUrl && currentBackUrl);
-        }
 
         btnCreate.addEventListener('click', () => {
-            if(currentFrontUrl && currentBackUrl) {
-                addCustomCardToScene(currentFrontUrl, currentBackUrl);
-                if (activeCards.length >= 1) window.togglePanel();
-            }
+            if(currentFrontUrl && currentBackUrl) { addCustomCardToScene(currentFrontUrl, currentBackUrl); if(activeCards.length >= 1 && window.innerWidth < 600) window.togglePanel(); }
         });
 
-        // SCÈNE 3D & ÉCLAIRAGE
-        const activeCards = [];
-        const cardSpacing = 10; 
-
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color('#a3a3a3');
-
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 0, 14);
-
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.5; 
+        const activeCards = [], cardSpacing = 10; 
+        const scene = new THREE.Scene(); scene.background = new THREE.Color('#a3a3a3');
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000); camera.position.set(0, 0, 20);
+        const renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); renderer.shadowMap.enabled = true; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.5;
         document.body.appendChild(renderer.domElement);
 
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true; controls.dampingFactor = 0.05;
-        controls.maxPolarAngle = Math.PI / 2 + 0.1; 
+        const controls = new OrbitControls(camera, renderer.domElement); controls.enableDamping = true; controls.maxPolarAngle = Math.PI / 2 + 0.1;
 
         scene.add(new THREE.AmbientLight(0xffffff, 1.2));
         const frontLight = new THREE.DirectionalLight(0xffffff, 3.5); frontLight.position.set(5, 10, 8); frontLight.castShadow = true; scene.add(frontLight);
         const backLightDir = new THREE.DirectionalLight(0xffffff, 3.5); backLightDir.position.set(-5, 10, -8); backLightDir.castShadow = true; scene.add(backLightDir);
-        
         const fill1 = new THREE.PointLight(0xffffff, 2.5, 50); fill1.position.set(0, 0, 6); scene.add(fill1);
-        const fill2 = new THREE.PointLight(0xffffff, 2.5, 50); fill2.position.set(0, 0, -6); scene.add(fill2);
-        
         const rim1 = new THREE.PointLight(0xffffff, 2.5, 30); rim1.position.set(-8, 5, 2); scene.add(rim1);
-        const rim2 = new THREE.PointLight(0xffffff, 2.5, 30); rim2.position.set(8, 5, -2); scene.add(rim2);
 
-        const planeMat = new THREE.MeshStandardMaterial({ color: '#a3a3a3', roughness: 0.6, metalness: 0.1 });
-        const plane = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), planeMat);
-        plane.rotation.x = -Math.PI / 2; plane.position.y = -3.5; plane.receiveShadow = true;
-        scene.add(plane);
+        const planeMat = new THREE.MeshStandardMaterial({ color: '#a3a3a3', roughness: 0.6 });
+        const plane = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), planeMat); plane.rotation.x = -Math.PI / 2; plane.position.y = -4.5; plane.receiveShadow = true; scene.add(plane);
 
-        const width = 8.56, height = 5.40, radius = 0.48, depth = 0.08; 
-        const shape = new THREE.Shape();
-        const x = -width / 2, y = -height / 2;
-        shape.moveTo(x + radius, y); shape.lineTo(x + width - radius, y); shape.quadraticCurveTo(x + width, y, x + width, y + radius); shape.lineTo(x + width, y + height - radius); shape.quadraticCurveTo(x + width, y + height, x + width - radius, y + height); shape.lineTo(x + radius, y + height); shape.quadraticCurveTo(x, y + height, x, y + height - radius); shape.lineTo(x, y + radius); shape.quadraticCurveTo(x, y, x + radius, y);
+        const width = 8.56, height = 5.4, radius = 0.48, depth = 0.08; 
+        const shape = new THREE.Shape(); const x = -width/2, y = -height/2;
+        shape.moveTo(x+radius, y); shape.lineTo(x+width-radius, y); shape.quadraticCurveTo(x+width, y, x+width, y+radius); shape.lineTo(x+width, y+height-radius); shape.quadraticCurveTo(x+width, y+height, x+width-radius, y+height); shape.lineTo(x+radius, y+height); shape.quadraticCurveTo(x, y+height, x, y+height-radius); shape.lineTo(x, y+radius); shape.quadraticCurveTo(x, y, x+radius, y);
         let sharedGeometry = new THREE.ExtrudeGeometry(shape, { depth: depth, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.02, bevelThickness: 0.02 });
         sharedGeometry.center(); sharedGeometry.computeVertexNormals(); sharedGeometry = sharedGeometry.toNonIndexed();
         const pos = sharedGeometry.attributes.position, norm = sharedGeometry.attributes.normal, uv = sharedGeometry.attributes.uv;
@@ -309,104 +242,48 @@
         sharedGeometry.clearGroups();
         for (let i = 0; i < pos.count; i += 3) {
             const nz = (norm.getZ(i) + norm.getZ(i+1) + norm.getZ(i+2)) / 3;
-            let matIndex = 2; if (nz > 0.5) matIndex = 0; else if (nz < -0.5) matIndex = 1; 
-            sharedGeometry.addGroup(i, 3, matIndex);
+            let matIndex = 2; if (nz > 0.5) matIndex = 0; else if (nz < -0.5) matIndex = 1; sharedGeometry.addGroup(i, 3, matIndex);
         }
 
         const textureLoader = new THREE.TextureLoader();
-
         function applyFinishToMaterial(mat, finishType) {
-            if (finishType === 'mat') {
-                mat.roughness = 0.8;
-                mat.metalness = 0.0;
-                mat.clearcoat = 0.0;
-                mat.transmission = 0.0;
-                mat.transparent = false;
-            } else { 
-                mat.roughness = 0.15;
-                mat.metalness = 0.1;
-                mat.clearcoat = 1.0; 
-                mat.clearcoatRoughness = 0.05;
-                mat.transmission = 0.0;
-                mat.transparent = false;
-            }
-            mat.needsUpdate = true;
+            mat.roughness = finishType === 'mat' ? 0.8 : 0.15; mat.clearcoat = finishType === 'mat' ? 0 : 1; mat.clearcoatRoughness = 0.05; mat.needsUpdate = true;
         }
 
         function addCustomCardToScene(frontUrl, backUrl) {
-            const materials = [
-                new THREE.MeshPhysicalMaterial({ color: 0xffffff }), 
-                new THREE.MeshPhysicalMaterial({ color: 0xffffff }), 
-                new THREE.MeshPhysicalMaterial({ color: 0xeeeeee })  
-            ];
-
+            const materials = [new THREE.MeshPhysicalMaterial({ color: 0xffffff }), new THREE.MeshPhysicalMaterial({ color: 0xffffff }), new THREE.MeshPhysicalMaterial({ color: 0xeeeeee })];
             materials.forEach(mat => applyFinishToMaterial(mat, currentFinish));
-
-            const newCard = new THREE.Mesh(sharedGeometry, materials);
-            newCard.castShadow = true;
-            
-            const loadSafeTexture = (url, material) => {
-                textureLoader.load(url, (texture) => {
-                    texture.colorSpace = THREE.SRGBColorSpace; 
-                    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-                    material.map = texture; 
-                    material.needsUpdate = true;
-                }, undefined, (err) => {
-                    console.error(err);
-                    alert("⚠️ Blocage navigateur local. Utilise le bouton '+ Ou importer'.");
-                });
-            };
-
-            loadSafeTexture(frontUrl, materials[0]);
-            loadSafeTexture(backUrl, materials[1]);
-
-            scene.add(newCard); activeCards.push(newCard);
-            arrangeCards();
+            const newCard = new THREE.Mesh(sharedGeometry, materials); newCard.castShadow = true;
+            const loadText = (url, mat) => textureLoader.load(url, (t) => { t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; mat.map = t; mat.needsUpdate = true; });
+            loadText(frontUrl, materials[0]); loadText(backUrl, materials[1]);
+            scene.add(newCard); activeCards.push(newCard); arrangeCards();
         }
 
         function arrangeCards() {
-            const totalCards = activeCards.length;
-            if (totalCards === 0) return;
-            const totalWidth = (totalCards - 1) * cardSpacing;
-            const startX = -totalWidth / 2;
-
-            activeCards.forEach((card, index) => {
-                card.position.x = startX + (index * cardSpacing);
-            });
-
-            const targetCameraZ = Math.max(14, totalCards * 8);
-            camera.position.set(0, 0, targetCameraZ);
-            controls.target.set(0, 0, 0); controls.update();
+            const total = activeCards.length; if (total === 0) return;
+            const startX = -((total - 1) * cardSpacing) / 2;
+            activeCards.forEach((c, i) => c.position.x = startX + (i * cardSpacing));
+            const zoom = window.innerWidth < 600 ? total * 15 : Math.max(20, total * 8);
+            camera.position.z = zoom; controls.update();
         }
 
         window.clearCards = function() {
-            activeCards.forEach(card => {
-                scene.remove(card);
-                card.material.forEach(mat => {
-                    if(mat.map) mat.map.dispose();
-                    mat.dispose();
-                });
-            });
-            activeCards.length = 0;
-            camera.position.set(0, 0, 14); controls.target.set(0, 0, 0); controls.update();
+            activeCards.forEach(c => { scene.remove(c); c.material.forEach(m => { if(m.map) m.map.dispose(); m.dispose(); }); });
+            activeCards.length = 0; camera.position.z = 20; controls.update();
         }
 
         const clock = new THREE.Clock();
         function animate() {
             requestAnimationFrame(animate); controls.update();
             const time = clock.getElapsedTime();
-            activeCards.forEach((card, index) => {
-                const offset = index * 1.5; 
-                card.position.y = Math.sin(time * 1.5 + offset) * 0.15;
-                card.rotation.y = Math.sin(time * 0.5 + offset) * 0.05;
-            });
+            activeCards.forEach((c, i) => { c.position.y = Math.sin(time * 1.5 + i) * 0.2; c.rotation.y = Math.sin(time * 0.5 + i) * 0.05; });
             renderer.render(scene, camera);
         }
         animate();
 
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(window.innerWidth, window.innerHeight); arrangeCards();
         });
     </script>
 </body>
